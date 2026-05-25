@@ -1,11 +1,11 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { Float, useTexture } from '@react-three/drei';
 import * as THREE from 'three';
 
-const keyframes = [
+const homeKeyframes = [
   { p: 0, pos: [0, -0.08, 0], rot: [0.08, -0.18, 0.02], scale: 1.34 },
   { p: 0.2, pos: [-0.78, -0.05, -0.42], rot: [0.12, -0.85, -0.08], scale: 0.96 },
   { p: 0.36, pos: [-2.9, -0.18, -0.22], rot: [0.18, 2.1, 0.08], scale: 1.04 },
@@ -16,13 +16,14 @@ const keyframes = [
 
 function getFrame(progress) {
   let index = 0;
-  for (let i = 0; i < keyframes.length - 1; i += 1) {
-    if (progress >= keyframes[i].p) index = i;
+  for (let i = 0; i < homeKeyframes.length - 1; i += 1) {
+    if (progress >= homeKeyframes[i].p) index = i;
   }
 
-  const a = keyframes[index];
-  const b = keyframes[index + 1];
-  const local = THREE.MathUtils.smoothstep((progress - a.p) / (b.p - a.p), 0, 1);
+  const a = homeKeyframes[index];
+  const b = homeKeyframes[index + 1] || a;
+  const denominator = (b.p - a.p) === 0 ? 1 : (b.p - a.p);
+  const local = THREE.MathUtils.smoothstep((progress - a.p) / denominator, 0, 1);
 
   return {
     pos: a.pos.map((v, i) => THREE.MathUtils.lerp(v, b.pos[i], local)),
@@ -51,10 +52,11 @@ function LightSweep({ progressRef }) {
   );
 }
 
-export default function PerfumeBottle({ mouseRef, progressRef, velocityRef }) {
+export default function PerfumeBottle({ mouseRef, progressRef, velocityRef, pathname }) {
   const bottle = useRef();
   const shadow = useRef();
   const texture = useTexture('/images/fumeluxe_hero.jpg');
+  const [hoverCategory, setHoverCategory] = useState(null);
 
   useEffect(() => {
     texture.colorSpace = THREE.SRGBColorSpace;
@@ -63,30 +65,92 @@ export default function PerfumeBottle({ mouseRef, progressRef, velocityRef }) {
     texture.magFilter = THREE.LinearFilter;
   }, [texture]);
 
+  // Capture hovered category card from Collections page
+  useEffect(() => {
+    const handleHover = (event) => {
+      setHoverCategory(event.detail?.category || null);
+    };
+    window.addEventListener('fumeluxe-category-hover', handleHover, { passive: true });
+    return () => {
+      window.removeEventListener('fumeluxe-category-hover', handleHover);
+    };
+  }, []);
+
   useFrame((state) => {
     const t = state.clock.elapsedTime;
     const p = progressRef.current;
     const v = velocityRef.current;
     const mouse = mouseRef.current;
-    const frame = getFrame(p);
+
+    // Default home keyframe coordinates
+    let targetPos = [0, -0.08, 0];
+    let targetRot = [0.08, -0.18, 0.02];
+    let targetScale = 1.34;
+
+    if (pathname === '/') {
+      const frame = getFrame(p);
+      targetPos = frame.pos;
+      targetRot = frame.rot;
+      targetScale = frame.scale;
+    } else if (pathname === '/collections') {
+      // Collections Page: Slide to the right, react to hovered category card
+      let hoverRotOffset = 0;
+      if (hoverCategory === 'designer') {
+        hoverRotOffset = -0.55; // Turn to show crisp silver profile
+      } else if (hoverCategory === 'niche') {
+        hoverRotOffset = 1.6; // Full pivot to showcase golden notes
+      } else if (hoverCategory === 'middle-eastern') {
+        hoverRotOffset = 3.14; // Complete turn to show deep elements
+      }
+      targetPos = [1.05, -0.05 - p * 0.15, -0.05];
+      targetRot = [0.08 + p * 0.4, 0.72 + hoverRotOffset + Math.sin(t * 0.2) * 0.05, 0.02];
+      targetScale = 1.08;
+    } else if (pathname === '/about') {
+      // About Page: Suspended elegant floating on left
+      targetPos = [-1.08 + p * 1.08, 0.04 - p * 0.12, 0.15];
+      targetRot = [0.12 + p * 0.5, -0.45 - p * 3.14, -0.02];
+      targetScale = 1.15 - p * 0.18;
+    } else if (pathname === '/featured') {
+      // Featured Page: Centered slightly to the right, floats and responds to scroll
+      targetPos = [0.96 - p * 0.15, 0.04, -0.1];
+      targetRot = [0.08, 0.95 + p * 1.8 + Math.sin(t * 0.18) * 0.06, 0.02];
+      targetScale = 1.14;
+    } else if (pathname === '/experience') {
+      // Experience Page: High-impact 360 scrolling orbit!
+      targetPos = [0, 0.12 - p * 0.2, -p * 0.4];
+      targetRot = [0.1 + p * 6.28, 0.35 + p * 12.56 + Math.sin(t * 0.3) * 0.08, 0.03];
+      targetScale = 1.25 - p * 0.28;
+    } else if (pathname === '/contact') {
+      // Contact Page: Weightless centered reflection orbit
+      targetPos = [0, -0.06, 0.08];
+      targetRot = [0.1, 0.15 + t * 0.15 + mouse.x * 0.25, 0.02];
+      targetScale = 1.32;
+    }
 
     if (bottle.current) {
-      const floatX = Math.sin(t * 0.62) * 0.035;
-      const floatY = Math.sin(t * 0.92) * 0.1;
+      const floatX = (pathname === '/contact' || pathname === '/experience') ? 0 : Math.sin(t * 0.62) * 0.025;
+      const floatY = Math.sin(t * 0.92) * 0.07;
       const sway = v * 0.22;
 
-      bottle.current.position.x = THREE.MathUtils.lerp(bottle.current.position.x, frame.pos[0] + floatX + mouse.x * 0.18, 0.058);
-      bottle.current.position.y = THREE.MathUtils.lerp(bottle.current.position.y, frame.pos[1] + floatY + mouse.y * 0.11, 0.058);
-      bottle.current.position.z = THREE.MathUtils.lerp(bottle.current.position.z, frame.pos[2], 0.058);
-      bottle.current.rotation.x = THREE.MathUtils.lerp(bottle.current.rotation.x, frame.rot[0] + mouse.y * 0.08, 0.06);
-      bottle.current.rotation.y = THREE.MathUtils.lerp(bottle.current.rotation.y, frame.rot[1] + Math.sin(t * 0.38) * 0.045 + mouse.x * 0.08 + sway, 0.06);
-      bottle.current.rotation.z = THREE.MathUtils.lerp(bottle.current.rotation.z, frame.rot[2] - mouse.x * 0.05 - sway * 0.25, 0.06);
-      bottle.current.scale.setScalar(THREE.MathUtils.lerp(bottle.current.scale.x, frame.scale, 0.06));
+      bottle.current.position.x = THREE.MathUtils.lerp(bottle.current.position.x, targetPos[0] + floatX + mouse.x * 0.15, 0.052);
+      bottle.current.position.y = THREE.MathUtils.lerp(bottle.current.position.y, targetPos[1] + floatY + mouse.y * 0.09, 0.052);
+      bottle.current.position.z = THREE.MathUtils.lerp(bottle.current.position.z, targetPos[2], 0.052);
+      
+      bottle.current.rotation.x = THREE.MathUtils.lerp(bottle.current.rotation.x, targetRot[0] + mouse.y * 0.06, 0.052);
+      bottle.current.rotation.y = THREE.MathUtils.lerp(bottle.current.rotation.y, targetRot[1] + mouse.x * 0.08 + sway, 0.052);
+      bottle.current.rotation.z = THREE.MathUtils.lerp(bottle.current.rotation.z, targetRot[2] - mouse.x * 0.04 - sway * 0.2, 0.052);
+      
+      bottle.current.scale.setScalar(THREE.MathUtils.lerp(bottle.current.scale.x, targetScale, 0.052));
     }
 
     if (shadow.current) {
       shadow.current.scale.setScalar(1.05 + p * 0.32 + Math.abs(v) * 0.2);
       shadow.current.material.opacity = 0.12 + (1 - p) * 0.05;
+      
+      // Follow bottle position
+      if (bottle.current) {
+        shadow.current.position.x = bottle.current.position.x * 0.85;
+      }
     }
   });
 
@@ -174,3 +238,4 @@ export default function PerfumeBottle({ mouseRef, progressRef, velocityRef }) {
     </group>
   );
 }
+

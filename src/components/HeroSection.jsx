@@ -30,7 +30,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: -16 }}
           animate={{ opacity: 0.72, y: 0 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[10px] font-semibold uppercase tracking-[0.48em] text-black/70"
+          className="text-[12px] font-semibold uppercase tracking-[0.48em] text-black/70"
         >
           Est. 2026 / The Sense of Majesty
         </motion.p>
@@ -48,7 +48,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 26 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.4, delay: 0.52, ease: [0.16, 1, 0.3, 1] }}
-            className="mx-auto mt-7 max-w-2xl text-xs font-medium uppercase leading-loose tracking-[0.28em] text-black/60 sm:text-sm"
+            className="mx-auto mt-7 max-w-2xl text-sm font-medium uppercase leading-loose tracking-[0.28em] text-black/60 sm:text-base"
           >
             A floating cinematic fragrance experience in glass, gold, silver, and light.
           </motion.p>
@@ -59,7 +59,7 @@ export default function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, delay: 0.8, ease: [0.16, 1, 0.3, 1] }}
           href="#categories"
-          className="group pointer-events-auto inline-flex h-12 items-center gap-4 border border-black/70 bg-white/40 px-7 text-[10px] font-bold uppercase tracking-[0.32em] text-black backdrop-blur-md transition duration-500 hover:border-black hover:bg-black hover:text-white"
+          className="group pointer-events-auto inline-flex h-12 items-center gap-4 border border-black/70 bg-white/40 px-7 text-[11px] font-bold uppercase tracking-[0.32em] text-black backdrop-blur-md transition duration-500 hover:border-black hover:bg-black hover:text-white"
         >
           <span className="h-1.5 w-1.5 rounded-full bg-gold transition group-hover:bg-white" />
           Enter the Film
@@ -67,7 +67,7 @@ export default function HeroSection() {
       </motion.div>
 
       <div className="absolute bottom-8 left-1/2 z-30 flex -translate-x-1/2 flex-col items-center gap-3">
-        <span className="text-[8px] font-semibold uppercase tracking-[0.36em] text-black/40">Scroll</span>
+        <span className="text-[10px] font-semibold uppercase tracking-[0.36em] text-black/40">Scroll</span>
         <span className="relative h-12 w-px overflow-hidden bg-black/15">
           <motion.span animate={{ y: [-18, 48] }} transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }} className="absolute left-0 top-0 h-5 w-px bg-gold" />
         </span>

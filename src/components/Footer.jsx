@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 
 export default function Footer() {
   return (
@@ -15,49 +16,55 @@ export default function Footer() {
             <span className="font-heading text-3xl tracking-[0.25em] text-white font-semibold">
               FUMELUXE
             </span>
-            <p className="text-xs font-body text-white/50 tracking-wider leading-relaxed max-w-sm">
+            <p className="text-sm font-body text-white/50 tracking-wider leading-relaxed max-w-sm">
               An immersive olfactory journey bringing designer, niche, and Middle Eastern premium raw ingredients to the world.
             </p>
           </div>
 
           {/* Direct Navigation */}
           <div className="space-y-4">
-            <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-gold">
+            <h4 className="text-sm uppercase tracking-[0.2em] font-semibold text-gold">
               Navigation
             </h4>
-            <ul className="space-y-2 text-xs font-body text-white/50">
+            <ul className="space-y-2 text-sm font-body text-white/50">
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-300">Top of Page</a>
+                <Link href="/" className="hover:text-white transition-colors duration-300">Home</Link>
               </li>
               <li>
-                <a href="#categories" className="hover:text-white transition-colors duration-300">Pillars of Scent</a>
+                <Link href="/collections" className="hover:text-white transition-colors duration-300">Collections</Link>
               </li>
               <li>
-                <a href="#featured" className="hover:text-white transition-colors duration-300">The Formulation</a>
+                <Link href="/featured" className="hover:text-white transition-colors duration-300">Featured Showcase</Link>
               </li>
               <li>
-                <a href="#story" className="hover:text-white transition-colors duration-300">The Heritage</a>
+                <Link href="/about" className="hover:text-white transition-colors duration-300">Our Story</Link>
+              </li>
+              <li>
+                <Link href="/experience" className="hover:text-white transition-colors duration-300">The Experience</Link>
+              </li>
+              <li>
+                <Link href="/contact" className="hover:text-white transition-colors duration-300">Contact</Link>
               </li>
             </ul>
           </div>
 
           {/* Socials / Contact */}
           <div className="space-y-4">
-            <h4 className="text-xs uppercase tracking-[0.2em] font-semibold text-gold">
+            <h4 className="text-sm uppercase tracking-[0.2em] font-semibold text-gold">
               Follow Us
             </h4>
-            <ul className="space-y-2 text-xs font-body text-white/50">
+            <ul className="space-y-2 text-sm font-body text-white/50">
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-300">Instagram</a>
+                <a href="#" className="hover:text-gold transition-colors duration-300">Instagram</a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-300">Pinterest</a>
+                <a href="#" className="hover:text-gold transition-colors duration-300">Pinterest</a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-300">Vogue Feature</a>
+                <a href="#" className="hover:text-gold transition-colors duration-300">Vogue Feature</a>
               </li>
               <li>
-                <a href="#" className="hover:text-white transition-colors duration-300">Editorial Press</a>
+                <a href="#" className="hover:text-gold transition-colors duration-300">Editorial Press</a>
               </li>
             </ul>
           </div>
@@ -65,7 +72,7 @@ export default function Footer() {
         </div>
 
         {/* Legal & Copyright */}
-        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 text-[10px] tracking-[0.2em] text-white/40 uppercase font-semibold font-body">
+        <div className="flex flex-col sm:flex-row justify-between items-center pt-8 text-xs tracking-[0.2em] text-white/40 uppercase font-semibold font-body">
           <span>
             (C) {new Date().getFullYear()} FUMELUXE. All Rights Reserved.
           </span>
