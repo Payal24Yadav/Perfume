@@ -13,14 +13,16 @@ export default function Categories() {
   return (
     <section id="categories" className="relative z-20 min-h-screen overflow-hidden border-t border-black/5 bg-transparent py-32">
       <div className="mx-auto grid max-w-7xl grid-cols-1 gap-14 px-6 lg:grid-cols-12">
-        <div className="lg:col-span-5">
-          <motion.p initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 0.6, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }} className="text-[10px] font-bold uppercase tracking-[0.48em] text-black">
-            Curated Atmospheres
-          </motion.p>
-          <motion.h2 initial={{ opacity: 0, y: 36, filter: 'blur(8px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true }} transition={{ duration: 1.25, delay: 0.15, ease: [0.16, 1, 0.3, 1] }} className="mt-5 font-heading text-5xl font-bold leading-[1.02] text-black sm:text-6xl">
-            Three scenes. One suspended bottle.
-          </motion.h2>
-          <div className="mt-8 h-px w-16 bg-gold" />
+        <div className="relative z-30 lg:col-span-5">
+          <div className="inline-block max-w-[560px] border border-white/45 bg-white/62 px-6 py-6 shadow-[0_18px_48px_rgba(255,255,255,0.45)] backdrop-blur-[6px]">
+            <motion.p initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 0.6, y: 0 }} viewport={{ once: true }} transition={{ duration: 1 }} className="text-[10px] font-bold uppercase tracking-[0.48em] text-black">
+              Curated Atmospheres
+            </motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 36, filter: 'blur(8px)' }} whileInView={{ opacity: 1, y: 0, filter: 'blur(0px)' }} viewport={{ once: true }} transition={{ duration: 1.25, delay: 0.15, ease: [0.16, 1, 0.3, 1] }} className="mt-5 font-heading text-5xl font-bold leading-[1.02] text-black sm:text-6xl">
+              Three scenes. One suspended bottle.
+            </motion.h2>
+            <div className="mt-8 h-px w-16 bg-gold" />
+          </div>
         </div>
 
         <div className="lg:col-span-7 lg:pt-24">
