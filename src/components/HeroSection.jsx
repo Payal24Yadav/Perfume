@@ -13,14 +13,6 @@ export default function HeroSection() {
 
   return (
     <section className="relative z-20 min-h-[118vh] overflow-hidden bg-transparent">
-      <video
-        className="absolute inset-0 h-full w-full object-cover opacity-[0.055] mix-blend-multiply"
-        src="/20260525-0616-26.9369032.mp4"
-        autoPlay
-        muted
-        loop
-        playsInline
-      />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_34%,rgba(255,255,255,0.08),rgba(255,255,255,0.9)_46%,#ffffff_78%)]" />
       <div className="absolute inset-x-0 top-0 h-48 bg-gradient-to-b from-white to-transparent" />
       <FloatingParticles count={42} />
