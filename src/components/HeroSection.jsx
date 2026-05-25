@@ -40,9 +40,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 46, filter: 'blur(10px)' }}
             animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
             transition={{ duration: 1.55, delay: 0.25, ease: [0.16, 1, 0.3, 1] }}
-            className="font-heading text-[clamp(3.2rem,9vw,9.5rem)] font-bold leading-[0.92] tracking-normal text-black"
+            className="font-heading text-[clamp(2.2rem,5.5vw,6rem)] font-bold leading-[0.92] tracking-[0.08em] text-black sm:tracking-[0.12em]"
           >
-            FUMELUXE
+            FUME LUXE
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 26 }}
